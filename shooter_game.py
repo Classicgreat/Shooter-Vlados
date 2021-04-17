@@ -62,8 +62,6 @@ font = font.Font(None,70)
 lost = 0
 
 game = True
-clock = time.Clock()
-FPS = 60
 
 while game:
     for e in event.get():
@@ -123,6 +121,10 @@ goal = 50 #столько кораблей нужно сбить для побе
 lost = 0 #пропущено кораблей
 max_lost = 10 #проиграли, если пропустили столько
 #класс-родитель для других спрайтов
+
+clock = time.Clock()
+FPS = 60
+
 class GameSprite(sprite.Sprite):
  #конструктор класса
    def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
@@ -175,8 +177,8 @@ class Bullet(GameSprite):
        if self.rect.y < 0:
            self.kill()
 #создаём окошко
-win_width = 700
-win_height = 500
+win_width = 1000
+win_height = 600
 display.set_caption("Shooter SAS")
 window = display.set_mode((win_width, win_height))
 background = transform.scale(image.load(img_back), (win_width, win_height))
@@ -235,10 +237,14 @@ while run:
            window.blit(win, (200, 200))
  
        #пишем текст на экране
-       text = font2.render("Счет: " + str(score), 1, (255, 255, 255))
+       text = font2.render("Счет: " + str(score) + " / 50", 1, (255, 255, 255))
        window.blit(text, (10, 20))
+
+       FPS_txt = font2.render("FPS: " + str(FPS), 1, (255, 255, 255))
+       window.blit(FPS_txt, (10, 100))
  
-       text_lose = font2.render("Пропущено: " + str(lost), 1, (255, 255, 255))
+       text_lose = font2.render("Пропущено: " + str(lost) + " / 10", 1, (255, 255, 255))
        window.blit(text_lose, (10, 50))
  
+       clock.tick(FPS)
        display.update()
